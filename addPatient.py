@@ -44,9 +44,28 @@ def lambda_handler(event, context):
         "password": "P@ssw0rd!"
     }
     """
+
+
+    try:
+        body = json.loads(event.get('body', '{}'))
+    except json.JSONDecodeError:
+        logger.error("Invalid JSON format in request body")
+        return {
+            'statusCode': 400,
+            'body': json.dumps({'message': 'Invalid JSON'})
+        }
+
+    email = body.get('email')
+    password = body.get('password')
+
+
+
+
+    """
     email = event.get('email')
     password = event.get('password')
-
+    """
+    
     if not email or not password:
         logger.error("Missing required parameters: email or password")
         return {
